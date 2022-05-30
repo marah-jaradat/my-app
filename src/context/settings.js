@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export const SettingsContext = React.createContext();
 
@@ -12,13 +12,19 @@ export default function Settings(props) {
   const state = {
     displaySettings,
     setDisplaySettings,
-
     numberItems,
-
     setNumberItems,
     sortBy,
     setSortBy,
   };
+  useEffect(() => {
+    let data = JSON.parse(localStorage.getItem("settings"));
+    if (data) {
+      setDisplaySettings(data.displaySettings);
+      setNumberItems(data.numberItems);
+      setSortBy(data.sortBy);
+    }
+  }, []);
 
   return (
     <SettingsContext.Provider value={state}>
